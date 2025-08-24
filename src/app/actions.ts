@@ -1,7 +1,16 @@
-import { IDataAboutUs, IStrapiResponse } from "@/types";
+import {
+	IDataAboutUs,
+	IDataServiceCategory,
+	IDataServiceContent,
+	IStrapiResponse,
+	IStrapiResponseSliderHomepage,
+	IStrapiWhyChooseUs,
+} from "@/types";
+import { unstable_cacheLife as cacheLife } from "next/cache";
 
 export async function getAboutCompany() {
 	"use cache";
+	cacheLife("minutes");
 
 	const res = await fetch(`${process.env.STRAPI_URL}/api/company-info?populate=*`, {
 		headers: {
@@ -10,6 +19,70 @@ export async function getAboutCompany() {
 	});
 
 	const data = (await res.json()) as IStrapiResponse<IDataAboutUs>;
+	return data.data;
+}
+
+export async function getServiceCategory() {
+	"use cache";
+	cacheLife("minutes");
+
+	const res = await fetch(`${process.env.STRAPI_URL}/api/service-categories`, {
+		headers: {
+			Authorization: `Bearer ${process.env.CRUD_TOKEN}`,
+		},
+	});
+
+	const data = (await res.json()) as IStrapiResponse<IDataServiceCategory[] | null>;
+
+	return data.data;
+}
+
+export async function getServiceContent(showInHomepage = false) {
+	"use cache";
+	cacheLife("minutes");
+
+	let queryParam = "populate=*";
+	if (showInHomepage) {
+		queryParam = `${queryParam}&filters[show_in_homepage][$eq]=true`;
+	}
+
+	const res = await fetch(`${process.env.STRAPI_URL}/api/services-contents?${queryParam}`, {
+		headers: {
+			Authorization: `Bearer ${process.env.CRUD_TOKEN}`,
+		},
+	});
+
+	const data = (await res.json()) as IStrapiResponse<IDataServiceContent[]>;
+
+	return data.data;
+}
+
+export async function getSliderHomepage() {
+	"use cache";
+	cacheLife("minutes");
+
+	const res = await fetch(`${process.env.STRAPI_URL}/api/sliders-homepage?populate[gallery][populate]=img`, {
+		headers: {
+			Authorization: `Bearer ${process.env.CRUD_TOKEN}`,
+		},
+	});
+
+	const data = (await res.json()) as IStrapiResponse<IStrapiResponseSliderHomepage[]>;
+
+	return data.data;
+}
+
+export async function getWhyChooseUs() {
+	"use cache";
+	cacheLife("hours");
+
+	const res = await fetch(`${process.env.STRAPI_URL}/api/why-choose-uses`, {
+		headers: {
+			Authorization: `Bearer ${process.env.CRUD_TOKEN}`,
+		},
+	});
+
+	const data = (await res.json()) as IStrapiResponse<IStrapiWhyChooseUs[]>;
 
 	return data.data;
 }
