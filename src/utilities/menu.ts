@@ -1,16 +1,33 @@
-interface MenuItem {
-	id?: string;
-	label: string;
-	href: string;
-	parent_id?: string;
-}
+import { IDataServiceCategory, IDataServiceContent, MenuItem, NestedMenuItem } from "@/types";
+import Str from "@supercharge/strings";
 
-interface NestedMenuItem {
-	id?: string;
-	label: string;
-	href: string;
-	menus?: NestedMenuItem[];
-}
+export const listMenuApp = ({ dropdownOurService }: { dropdownOurService: Omit<NestedMenuItem, "id">[] }) => [
+	{
+		label: "Home",
+		href: "/",
+		children: null,
+	},
+	{
+		label: "Our Services",
+		href: null,
+		children: dropdownOurService,
+	},
+	{
+		label: "Gallery",
+		href: "/gallery",
+		children: null,
+	},
+	{
+		label: "Contact Us",
+		href: "/contact-us",
+		children: null,
+	},
+	{
+		label: "Exdoma",
+		href: "https://exdoma.whsmaritime.com/exdoma/login",
+		children: null,
+	},
+];
 
 export function createNestedMenus(array: MenuItem[]): NestedMenuItem[] {
 	// Create a map for quick lookup of parent objects
@@ -46,3 +63,30 @@ export function createNestedMenus(array: MenuItem[]): NestedMenuItem[] {
 
 	return result;
 }
+
+export const listOurServices = (serviceCategories: IDataServiceCategory[] | null, serviceContent: IDataServiceContent[]) => {
+	const ourServiceMenuFlat = [
+		...(serviceCategories
+			? serviceCategories!.map(eachCategory => ({
+					id: eachCategory.documentId,
+					label: eachCategory.category.trim(),
+					href: Str(eachCategory.category).slug().get().replace(/^-/, ""),
+			  }))
+			: []),
+		...serviceContent.map(eachContent => ({
+			label: eachContent.title.trim(),
+			href: Str(eachContent.title).slug().get().replaceAll("(", "").replaceAll(")", "").replace(/^-/, ""),
+			parent_id: eachContent.service_category?.documentId,
+		})),
+	];
+
+	return createNestedMenus(ourServiceMenuFlat).map(eachMenu => ({
+		label: eachMenu.label,
+		href: eachMenu.href,
+		menus: eachMenu.menus ?? [],
+	}));
+};
+
+export const CLASSNAME_ICON_SITEMAP_MENU = "group-hover/sitemap-menu:translate-x-0.5 transition-all duration-100";
+
+export const CLASSNAME_FOOTER_SITEMAP_MENU = "group/sitemap-menu flex items-center hover:font-medium transition-all duration-100";

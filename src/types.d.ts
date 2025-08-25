@@ -13,20 +13,23 @@ export interface IImgStrapi {
 	url: string;
 }
 
+export interface IVideoStrapi {
+	ext: ".mp4";
+	mime: "video/mp4";
+	name: string;
+	publishedAt: Date;
+	url: `${string}.mp4`;
+	size: number;
+	documentId: string;
+}
+
 export interface IDataAboutUs {
 	about_desc: string;
 	createdAt: Date;
 	id: number;
 	logo: IImgStrapi;
-	video_homepage?: {
-		ext: ".mp4";
-		mime: "video/mp4";
-		name: string;
-		publishedAt: Date;
-		url: `${string}.mp4`;
-		size: number;
-		documentId: string;
-	};
+	video_homepage?: IVideoStrapi;
+	iso_img?: IImgStrapi;
 }
 
 export interface IDataServiceCategory {
@@ -76,4 +79,33 @@ export interface IStrapiWhyChooseUs {
 	title: string;
 	description: string;
 	documentId: string;
+}
+
+export interface IStrapiBlog {
+	documentId: string;
+	title: string;
+	datepost: Date;
+	cover: IImgStrapi;
+	wysiwyg: string;
+}
+
+export interface IStrapiContactUs {
+	address: string;
+	email: string;
+	fax: string;
+	phone: string;
+}
+
+export interface MenuItem {
+	id?: string;
+	label: string;
+	href: string;
+	parent_id?: string;
+}
+
+export interface NestedMenuItem {
+	id?: string;
+	label: string;
+	href: string;
+	menus?: MenuItem[];
 }

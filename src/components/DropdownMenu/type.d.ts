@@ -11,4 +11,5 @@ export interface IDropdownMenu {
 	isNestedOnLeft?: boolean;
 	menus: IMenus[];
 	label: string;
+	className?: string;
 }

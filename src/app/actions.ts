@@ -2,6 +2,8 @@ import {
 	IDataAboutUs,
 	IDataServiceCategory,
 	IDataServiceContent,
+	IStrapiBlog,
+	IStrapiContactUs,
 	IStrapiResponse,
 	IStrapiResponseSliderHomepage,
 	IStrapiWhyChooseUs,
@@ -83,6 +85,36 @@ export async function getWhyChooseUs() {
 	});
 
 	const data = (await res.json()) as IStrapiResponse<IStrapiWhyChooseUs[]>;
+
+	return data.data;
+}
+
+export async function getBlog() {
+	"use cache";
+	cacheLife("minutes");
+
+	const res = await fetch(`${process.env.STRAPI_URL}/api/blogs?populate=*`, {
+		headers: {
+			Authorization: `Bearer ${process.env.CRUD_TOKEN}`,
+		},
+	});
+
+	const data = (await res.json()) as IStrapiResponse<IStrapiBlog[]>;
+
+	return data.data;
+}
+
+export async function getContactUs() {
+	"use cache";
+	cacheLife("minutes");
+
+	const res = await fetch(`${process.env.STRAPI_URL}/api/contact-us?populate=*`, {
+		headers: {
+			Authorization: `Bearer ${process.env.CRUD_TOKEN}`,
+		},
+	});
+
+	const data = (await res.json()) as IStrapiResponse<IStrapiContactUs>;
 
 	return data.data;
 }

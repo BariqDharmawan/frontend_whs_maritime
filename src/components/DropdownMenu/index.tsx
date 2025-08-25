@@ -3,15 +3,12 @@
 import Link from "next/link";
 import { useState } from "react";
 import { IDropdownMenu } from "./type";
-import clsx from "clsx";
 import IconNestedDropdown from "../Icon/NestedDropdown";
 
 const CLASSNAME_MENU = "block pr-4 pl-7 py-2 text-white cursor-pointer";
 
-const DropdownMenu = ({ label, menus, isNestedOnLeft }: IDropdownMenu) => {
+const DropdownMenu = ({ label, menus, isNestedOnLeft, className = "" }: IDropdownMenu) => {
 	const [dropdownOpen, setDropdownOpen] = useState(false);
-	const [nestedOpen, setNestedOpen] = useState(false);
-	console.log("nestedOpen", nestedOpen);
 
 	return (
 		<>
@@ -25,41 +22,29 @@ const DropdownMenu = ({ label, menus, isNestedOnLeft }: IDropdownMenu) => {
 				</svg>
 			</button>
 			{dropdownOpen && (
-				<div className="absolute right-0 mt-2 w-40 bg-gray-900 border rounded-sm z-10">
+				<div className="absolute right-0 mt-2 w-40 bg-black rounded-sm z-10 has-hover:rounded-tl-none">
 					{menus.map(menu =>
 						menu.menus && menu.menus.length > 0 ? (
-							<div className="relative" key={menu.label}>
-								<button
-									type="button"
-									className={`${CLASSNAME_MENU} flex items-center`}
-									onMouseEnter={() => {
-										setNestedOpen(true);
-									}}
-									onMouseLeave={() => {
-										setNestedOpen(false);
-									}}
-								>
+							<div className={`relative group ${className} rounded-tr-sm`} key={menu.label}>
+								<button type="button" className={`${CLASSNAME_MENU} flex items-center`}>
 									{isNestedOnLeft && <IconNestedDropdown className="absolute left-0 text-gray-400" />}
 									<span>{menu.label}</span>
 									{!isNestedOnLeft && <IconNestedDropdown />}
 								</button>
-								<div
-									className={clsx(
-										"flex transition duration-150 flex-col absolute top-0 right-1 -translate-x-full bg-gray-900 w-full rounded-sm",
-										{
-											"h-0 overflow-hidden": !nestedOpen,
-										},
-									)}
-								>
+								<div className="flex transition duration-150 flex-col absolute top-0 right-0 -translate-x-full bg-black w-full rounded-sm group-hover:rounded-tr-none max-h-0 overflow-hidden group-hover:max-h-none group-hover:overflow-visible">
 									{menu.menus.map(nestedMenu => (
-										<Link key={nestedMenu.label} href={nestedMenu.href} className={CLASSNAME_MENU}>
+										<Link
+											key={nestedMenu.label}
+											href={nestedMenu.href}
+											className={`${CLASSNAME_MENU} transition-all duration-100 ${className}`}
+										>
 											{nestedMenu.label}
 										</Link>
 									))}
 								</div>
 							</div>
 						) : (
-							<Link key={menu.label} href={menu.href} className={CLASSNAME_MENU}>
+							<Link key={menu.label} href={menu.href} className={`${CLASSNAME_MENU} transition-all duration-100 ${className}`}>
 								{menu.label}
 							</Link>
 						),

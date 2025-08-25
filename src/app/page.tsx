@@ -1,20 +1,24 @@
 import SliderBanner from "@/components/SliderBanner";
-import { getAboutCompany, getServiceContent, getSliderHomepage, getWhyChooseUs } from "./actions";
-import { Icon } from "@iconify-icon/react";
+import { getAboutCompany, getBlog, getContactUs, getServiceContent, getSliderHomepage, getWhyChooseUs } from "./actions";
 import SectionService from "@/components/SectionService";
 import ListChooseUs from "@/components/ListChooseUs";
 import HeadSection from "@/components/HeadSection";
-import Image from "next/image";
 import CardNews from "@/components/CardNews";
+import Str from "@supercharge/strings";
+import Image from "next/image";
+import Footer from "@/components/Footer";
 
 export default async function Home() {
-	const [sliderHomepage, ourServices, aboutUsContent, whyChooseUsContent] = await Promise.all([
+	const [sliderHomepage, ourServices, aboutUsContent, whyChooseUsContent, blogs, contactUsContent] = await Promise.all([
 		getSliderHomepage(),
 		getServiceContent(true),
 		getAboutCompany(),
 		getWhyChooseUs(),
+		getBlog(),
+		getContactUs(),
 	]);
-	console.log("ourServices", aboutUsContent);
+
+	console.log("aboutUsContent", aboutUsContent);
 
 	return (
 		<>
@@ -65,13 +69,33 @@ export default async function Home() {
 				</div>
 			</section>
 
-			<section>
+			<section className="py-6">
 				<div className="container max-w-5xl mx-auto">
 					<HeadSection title="Company News" />
 
-					{/* <CardNews src=/> */}
+					<div className="grid grid-cols-3 gap-4">
+						{blogs.map(blog => (
+							<CardNews
+								href={`/blog/${Str(blog.title).trim().lower().slug().get()}`}
+								wysiwyg={blog.wysiwyg}
+								date={blog.datepost}
+								src={`${process.env.STRAPI_URL}${blog.cover.url}`}
+								key={blog.documentId}
+								title={blog.title}
+							/>
+						))}
+					</div>
 				</div>
 			</section>
+
+			<Footer
+				isoImg={`${process.env.STRAPI_URL}${aboutUsContent.iso_img?.url}`}
+				fax={contactUsContent.fax}
+				telphone={contactUsContent.phone}
+				email={contactUsContent.email}
+				address={contactUsContent.address}
+				img={`${process.env.STRAPI_URL}${aboutUsContent.logo.url}`}
+			/>
 		</>
 	);
 }
