@@ -2,8 +2,6 @@
 
 import { IStrapiResponseSliderHomepage } from "@/types";
 import Link from "next/link";
-import "swiper/css";
-import "swiper/css/navigation";
 import { Navigation } from "swiper/modules";
 import { Swiper, SwiperRef, SwiperSlide } from "swiper/react";
 import { useRef, useState } from "react";

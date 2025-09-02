@@ -2,6 +2,7 @@ import {
 	IDataAboutUs,
 	IDataServiceCategory,
 	IDataServiceContent,
+	IGallery,
 	IStrapiBlog,
 	IStrapiContactUs,
 	IStrapiResponse,
@@ -115,6 +116,20 @@ export async function getContactUs() {
 	});
 
 	const data = (await res.json()) as IStrapiResponse<IStrapiContactUs>;
+
+	return data.data;
+}
+
+export async function getGalleryContent() {
+	"use cache";
+
+	const res = await fetch(`${process.env.STRAPI_URL}/api/gallery?populate=*`, {
+		headers: {
+			Authorization: `Bearer ${process.env.CRUD_TOKEN}`,
+		},
+	});
+
+	const data = (await res.json()) as IStrapiResponse<IGallery[]>;
 
 	return data.data;
 }

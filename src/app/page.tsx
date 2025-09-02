@@ -1,24 +1,19 @@
 import SliderBanner from "@/components/SliderBanner";
-import { getAboutCompany, getBlog, getContactUs, getServiceContent, getSliderHomepage, getWhyChooseUs } from "./actions";
+import { getAboutCompany, getBlog, getServiceContent, getSliderHomepage, getWhyChooseUs } from "./actions";
 import SectionService from "@/components/SectionService";
 import ListChooseUs from "@/components/ListChooseUs";
 import HeadSection from "@/components/HeadSection";
 import CardNews from "@/components/CardNews";
 import Str from "@supercharge/strings";
-import Image from "next/image";
-import Footer from "@/components/Footer";
 
 export default async function Home() {
-	const [sliderHomepage, ourServices, aboutUsContent, whyChooseUsContent, blogs, contactUsContent] = await Promise.all([
+	const [sliderHomepage, ourServices, aboutUsContent, whyChooseUsContent, blogs] = await Promise.all([
 		getSliderHomepage(),
 		getServiceContent(true),
 		getAboutCompany(),
 		getWhyChooseUs(),
 		getBlog(),
-		getContactUs(),
 	]);
-
-	console.log("aboutUsContent", aboutUsContent);
 
 	return (
 		<>
@@ -87,15 +82,6 @@ export default async function Home() {
 					</div>
 				</div>
 			</section>
-
-			<Footer
-				isoImg={`${process.env.STRAPI_URL}${aboutUsContent.iso_img?.url}`}
-				fax={contactUsContent.fax}
-				telphone={contactUsContent.phone}
-				email={contactUsContent.email}
-				address={contactUsContent.address}
-				img={`${process.env.STRAPI_URL}${aboutUsContent.logo.url}`}
-			/>
 		</>
 	);
 }

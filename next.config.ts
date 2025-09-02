@@ -5,7 +5,7 @@ const nextConfig: NextConfig = {
 		useCache: true,
 	},
 	images: {
-		remotePatterns: [new URL("http://localhost:1337/**")],
+		remotePatterns: [new URL(`${process.env.STRAPI_URL}/**`), new URL("https://whsmaritime.com/**")],
 	},
 };
 

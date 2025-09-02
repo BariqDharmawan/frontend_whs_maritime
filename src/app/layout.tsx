@@ -1,7 +1,10 @@
 import type { Metadata, Viewport } from "next";
-import { getAboutCompany, getServiceCategory, getServiceContent } from "./actions";
+import { getAboutCompany, getContactUs } from "./actions";
 import "../app/css/global.css";
+import "swiper/css";
+import "swiper/css/navigation";
 import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 
 export const metadata: Metadata = {
 	title: "Create Next App",
@@ -18,13 +21,21 @@ export default async function RootLayout({
 }: Readonly<{
 	children: React.ReactNode;
 }>) {
-	const aboutCompany = await getAboutCompany();
+	const [aboutCompany, contactUsContent] = await Promise.all([getAboutCompany(), getContactUs()]);
 
 	return (
 		<html lang="en">
 			<body className="antialiased">
 				<Navbar logo={aboutCompany.logo.url} />
 				{children}
+				<Footer
+					isoImg={`${process.env.STRAPI_URL}${aboutCompany.iso_img?.url}`}
+					fax={contactUsContent.fax}
+					telphone={contactUsContent.phone}
+					email={contactUsContent.email}
+					address={contactUsContent.address}
+					img={`${process.env.STRAPI_URL}${aboutCompany.logo.url}`}
+				/>
 			</body>
 		</html>
 	);

@@ -6,14 +6,16 @@ const BtnNavSlider = ({
 	leftOrRight,
 	onClick,
 	isDisabled = false,
+	className,
 }: {
+	className?: string;
 	leftOrRight: "left" | "right";
 	isDisabled?: boolean;
 	onClick?: DOMAttributes<HTMLButtonElement>["onClick"];
 }) => {
 	return (
 		<button
-			className={clsx("absolute text-white transition duration-150 top-1/2 z-50 ", {
+			className={clsx(`absolute text-white transition duration-150 top-1/2 z-50 ${className}`, {
 				"left-0": leftOrRight === "left",
 				"right-0": leftOrRight === "right",
 				"cursor-pointer": !isDisabled,
