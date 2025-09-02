@@ -19,7 +19,7 @@ export const listMenuApp = ({ dropdownOurService }: { dropdownOurService: Omit<N
 	},
 	{
 		label: "Contact Us",
-		href: "/contact-us",
+		href: "/contact",
 		children: null,
 	},
 	{

@@ -4,3 +4,8 @@
 	--color-primary: #1e73be;
 	--color-primary-dark: #1767ad;
 }
+
+.map-embed iframe {
+	flex-grow: 1;
+	height: 100%;
+}

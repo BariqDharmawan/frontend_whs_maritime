@@ -1,3 +1,5 @@
+type HTMLString = `<${string}>`;
+
 export interface IImgStrapi {
 	caption: string | null;
 	formats: {
@@ -94,6 +96,9 @@ export interface IStrapiContactUs {
 	email: string;
 	fax: string;
 	phone: string;
+	banner_contact_page: IImgStrapi;
+	head_quarter: string;
+	iframe_address: HTMLString;
 }
 
 export interface MenuItem {
