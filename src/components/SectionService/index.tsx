@@ -1,7 +1,6 @@
 "use client";
 
 import { IDataServiceContent } from "@/types";
-import Str from "@supercharge/strings";
 import { motion } from "motion/react";
 import Image from "next/image";
 import Link from "next/link";
@@ -40,7 +39,7 @@ const SectionService = ({ datas }: { datas: IDataServiceContent[] }) => {
 
 					<Link
 						className="bg-primary transition duration-150 hover:bg-primary-dark text-white px-4 py-2 rounded-lg mt-auto"
-						href={Str(eachService.title).slug().get()}
+						href={`/our-services/${eachService.slug}`}
 					>
 						Learn more
 					</Link>
