@@ -9,7 +9,6 @@ import Str from "@supercharge/strings";
 
 const Navbar = async ({ logo }: INavbar) => {
 	const [serviceCategories, serviceContent] = await Promise.all([getServiceCategory(), getServiceContent()]);
-
 	const ourServiceMenuDropdown = listOurServices(serviceCategories, serviceContent);
 
 	return (

@@ -1,5 +1,5 @@
 import SliderBanner from "@/components/SliderBanner";
-import { getAboutCompany, getBlog, getServiceContent, getSliderHomepage, getWhyChooseUs } from "./actions";
+import { getAboutCompany, getBlog, getServiceContent, getSliderHomepage, getWhyChooseUs } from "../actions";
 import SectionService from "@/components/SectionService";
 import ListChooseUs from "@/components/ListChooseUs";
 import HeadSection from "@/components/HeadSection";

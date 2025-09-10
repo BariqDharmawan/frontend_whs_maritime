@@ -42,6 +42,7 @@ export interface IDataServiceCategory {
 
 export interface IDataServiceContent {
 	id: number;
+	slug: string;
 	title: string;
 	cover: IImgStrapi;
 	wysiwyg: string;
@@ -106,11 +107,13 @@ export interface MenuItem {
 	label: string;
 	href: string;
 	parent_id?: string;
+	slug?: string;
 }
 
 export interface NestedMenuItem {
-	id?: string;
-	label: string;
-	href: string;
+	id?: MenuItem["id"];
+	label: MenuItem["label"];
+	href: MenuItem["href"];
 	menus?: MenuItem[];
+	slug?: MenuItem["slug"];
 }

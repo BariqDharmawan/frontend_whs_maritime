@@ -71,11 +71,13 @@ export const listOurServices = (serviceCategories: IDataServiceCategory[] | null
 					id: eachCategory.documentId,
 					label: eachCategory.category.trim(),
 					href: Str(eachCategory.category).slug().get().replace(/^-/, ""),
+					slug: undefined,
 			  }))
 			: []),
 		...serviceContent.map(eachContent => ({
 			label: eachContent.title.trim(),
-			href: Str(eachContent.title).slug().get().replaceAll("(", "").replaceAll(")", "").replace(/^-/, ""),
+			href: `/our-services/${Str(eachContent.title).slug().get().replaceAll("(", "").replaceAll(")", "").replace(/^-/, "")}`,
+			slug: eachContent.slug,
 			parent_id: eachContent.service_category?.documentId,
 		})),
 	];
@@ -84,6 +86,7 @@ export const listOurServices = (serviceCategories: IDataServiceCategory[] | null
 		label: eachMenu.label,
 		href: eachMenu.href,
 		menus: eachMenu.menus ?? [],
+		slug: eachMenu.slug,
 	}));
 };
 

@@ -40,6 +40,21 @@ export async function getServiceCategory() {
 	return data.data;
 }
 
+export async function getDetailService(slug: IDataServiceContent["slug"]) {
+	"use cache";
+	cacheLife("minutes");
+
+	const res = await fetch(`${process.env.STRAPI_URL}/api/services-contents?filters[slug][$eq]=${slug}&populate=*`, {
+		headers: {
+			Authorization: `Bearer ${process.env.CRUD_TOKEN}`,
+		},
+	});
+
+	const data = (await res.json()) as IStrapiResponse<IDataServiceContent[]>;
+
+	return data.data[0];
+}
+
 export async function getServiceContent(showInHomepage = false) {
 	"use cache";
 	cacheLife("minutes");

@@ -3,9 +3,19 @@
 @theme {
 	--color-primary: #1e73be;
 	--color-primary-dark: #1767ad;
+	--color-secondary: #ffa500;
 }
 
 .map-embed iframe {
 	flex-grow: 1;
 	height: 100%;
+}
+
+.table-inside table,
+.table-inside td {
+	@apply border border-gray-200;
+}
+
+.table-inside td {
+	@apply p-3;
 }
