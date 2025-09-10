@@ -90,6 +90,7 @@ export interface IStrapiBlog {
 	datepost: Date;
 	cover: IImgStrapi;
 	wysiwyg: string;
+	slug: string;
 }
 
 export interface IStrapiContactUs {

@@ -120,6 +120,21 @@ export async function getBlog() {
 	return data.data;
 }
 
+export async function getDetailArticle(slug: IStrapiBlog["slug"]) {
+	"use cache";
+	cacheLife("minutes");
+
+	const res = await fetch(`${process.env.STRAPI_URL}/api/blogs?filters[slug][$eq]=${slug}&populate=*`, {
+		headers: {
+			Authorization: `Bearer ${process.env.CRUD_TOKEN}`,
+		},
+	});
+
+	const data = (await res.json()) as IStrapiResponse<IStrapiBlog[]>;
+
+	return data.data[0];
+}
+
 export async function getContactUs() {
 	"use cache";
 	cacheLife("minutes");
